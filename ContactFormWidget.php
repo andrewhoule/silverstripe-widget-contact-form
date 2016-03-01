@@ -5,13 +5,13 @@ class ContactFormWidget extends Widget {
    private static $db = array(
       'Title' => 'Varchar(255)',
       'Content' => 'HTMLText',
-      'Mailto' => 'Varchar(100)', 
+      'Mailto' => 'Varchar(100)',
       'SubmitText' => 'Text',
    );
 
-   private static $title = ""; 
-   private static $cmsTitle = "Contact Form"; 
-   private static $description = "Add a contact form to the sidebar"; 
+   private static $title = "";
+   private static $cmsTitle = "Contact Form";
+   private static $description = "Add a contact form to the sidebar";
 
    public function getCMSFields() {
       return new FieldList(
@@ -28,7 +28,7 @@ class ContactFormWidget_Controller extends Widget_Controller {
 
   private static $allowed_actions = array('ContactForm');
 
-   public function ContactForm() {       
+   public function ContactForm() {
       $fields = new FieldList(
          TextField::create('Name')->setValue('Name')->addExtraClass('full'),
          EmailField::create('Email')->setValue('Email')->addExtraClass('full'),
@@ -44,7 +44,7 @@ class ContactFormWidget_Controller extends Widget_Controller {
       return new Form($this, 'ContactForm', $fields, $actions, $validator);
    }
 
-   public function SendContactForm($data, $form) { 
+   public function SendContactForm($data, $form) {
       if($this->SubmitText) {
          $SubmitText = $this->SubmitText;
       }
@@ -58,7 +58,7 @@ class ContactFormWidget_Controller extends Widget_Controller {
       else {
          $From = $data['Email'];
          $To = $this->Mailto;
-         $Subject = "Contact form submission from the contact form widget";     
+         $Subject = "Contact form submission from the contact form widget";
          $email = new Email($From, $To, $Subject);
          $email->setTemplate('ContactFormEmail');
          $email->populateTemplate($data);
@@ -66,7 +66,7 @@ class ContactFormWidget_Controller extends Widget_Controller {
          $form->sessionMessage($SubmitText,'success');
          Controller::redirectBack();
       }
-   } 
+   }
 
    public function Title() {
       if($this->Title){
